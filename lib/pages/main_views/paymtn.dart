@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class PayMtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     var boldFont = TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600);
     return Scaffold(
         appBar: AppBar(
@@ -61,7 +60,7 @@ class PayMtn extends StatelessWidget {
                     children: [
                       Text('Account number'),
                       SizedBox(width: 40),
-                      Text('0607069999', style: boldFont)
+                      Text('083 958 7442', style: boldFont)
                     ],
                   ),
                   SizedBox(
@@ -72,7 +71,7 @@ class PayMtn extends StatelessWidget {
                     children: [
                       Text('USSD string'),
                       SizedBox(width: 40),
-                      Text('*120*151#', style: boldFont)
+                      Text('*135#', style: boldFont)
                     ],
                   ),
                 ],

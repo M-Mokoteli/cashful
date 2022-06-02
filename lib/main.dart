@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/app_route.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:flutter_application_1/configs/locator.dart';
-import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pages/registration/get_started.dart';
 import 'package:flutter_application_1/view_models/apply_view_model.dart';
 import 'package:flutter_application_1/view_models/auth_view_model.dart';
@@ -32,10 +31,7 @@ void main() async {
   runApp(MyApp());
 }
 
-// final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -54,7 +50,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<LevelViewModel>())
       ],
       child: MaterialApp(
-        //initialRoute: '/home',
         debugShowCheckedModeBanner: false,
         title: 'Cashful',
         theme: ThemeData(
@@ -76,30 +71,6 @@ class MyApp extends StatelessWidget {
                     borderSide: BorderSide(
                   color: kPrimaryBlue,
                 )))),
-        // home: ChangeNotifierProvider(
-        //     create: (_) => ConnectivityViewModel(),
-        //     child: Consumer<ConnectivityViewModel>(
-        //       builder: (context, viewModel, child) {
-        //         print(viewModel.result);
-        //         if (viewModel.result == ConnectivityResult.none) {
-        //           return NoConnectionScreen();
-        //         } else
-        //           return StreamBuilder<User?>(
-        //             stream: FirebaseAuth.instance.authStateChanges(),
-        //             builder: (BuildContext context, snapshot) {
-        //               if (snapshot.hasData) {
-        //                 if (snapshot.data == null) {
-        //                   return LoginScreen();
-        //                 } else {
-        //                   return MyHomePage();
-        //                 }
-        //               } else {
-        //                 return LoginScreen();
-        //               }
-        //             },
-        //           );
-        //       },
-        //     )),
         onGenerateRoute: (settings) => AppRoute.onGenerateRoute(settings),
       ),
     );
@@ -148,9 +119,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         .doc(uid)
         .collection("tokens")
         .add({"fcm_token": token});
-    // .collection('Profile')
-    // .doc('Applications')
-    // .set({});
   }
 
   String errorMessage = '';
@@ -316,12 +284,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     height: 15.0,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    },
+                    onTap: () {},
                     child: Text(
                       "Already registered? Login now",
                       style: TextStyle(

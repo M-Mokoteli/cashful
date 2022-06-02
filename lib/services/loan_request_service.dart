@@ -22,13 +22,13 @@ class LoanRequestService extends ILoanRequestService {
   Future<QuerySnapshot> getUserLoan(String uid) async {
     QuerySnapshot requestSnapshot = await _loanRequestCollRef
         .where('userId', isEqualTo: uid)
-        .where('loanStatus', isEqualTo: 'approved')
+        .where('loanStatus', whereIn: ['approved', 'overdue'])
         .limit(1)
         .get();
     return requestSnapshot;
   }
 
-  Future<QuerySnapshot> getUserLoans(String s) async{
+  Future<QuerySnapshot> getUserLoans(String s) async {
     QuerySnapshot requestSnapshot = await _loanRequestCollRef
         .where('userId', isEqualTo: s)
         .where('loanStatus')

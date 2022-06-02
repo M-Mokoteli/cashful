@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view_models/splash_view_model.dart';
+
 import '../../configs/locator.dart';
 import '../../models/user_model.dart';
 
@@ -56,7 +57,7 @@ class PayStdBank extends StatelessWidget {
                       children: [
                         Text('Recepient'),
                         SizedBox(width: 40),
-                        Text("Cashful Co", style: boldFont)
+                        Text('Cashful', style: boldFont)
                       ]),
                   SizedBox(
                     height: 10,
@@ -66,7 +67,7 @@ class PayStdBank extends StatelessWidget {
                     children: [
                       Text('Bank'),
                       SizedBox(width: 40),
-                      Text("FNB", style: boldFont)
+                      Text('FNB', style: boldFont)
                     ],
                   ),
                   SizedBox(
@@ -77,7 +78,7 @@ class PayStdBank extends StatelessWidget {
                     children: [
                       Text('Account number'),
                       SizedBox(width: 40),
-                      Text("62925756887", style: boldFont)
+                      Text('629 2575 6887', style: boldFont)
                     ],
                   ),
                   SizedBox(
@@ -88,7 +89,7 @@ class PayStdBank extends StatelessWidget {
                     children: [
                       Text('Account type'),
                       SizedBox(width: 40),
-                      Text("Cheque", style: boldFont)
+                      Text('Cheque', style: boldFont)
                     ],
                   ),
                   SizedBox(
@@ -97,7 +98,7 @@ class PayStdBank extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Branch Code'),
+                      Text('Branch'),
                       SizedBox(width: 40),
                       Text('250655', style: boldFont)
                     ],
@@ -110,19 +111,15 @@ class PayStdBank extends StatelessWidget {
                     children: [
                       Text('Reference number'),
                       SizedBox(width: 40),
-                      Text(user?.referenceNumber.toUpperCase() ?? "",
-                          style: boldFont)
+                      Text(user?.referenceNumber ?? "", style: boldFont)
                     ],
                   ),
                   SizedBox(
                     height: 40,
                   ),
-                  Container(
-                    child: Text(
-                      'If you do not see a reference number, please update your bank account details in Settings',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                  Text(
+                      'If a reference number is not displayed, please update your payment method in Settings.',
+                      textAlign: TextAlign.center),
                 ],
               ),
             )

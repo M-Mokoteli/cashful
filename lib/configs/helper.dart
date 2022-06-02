@@ -12,9 +12,10 @@ import 'package:flutter_application_1/pages/registration/verification3.dart';
 import 'package:flutter_application_1/pages/registration/verification4.dart';
 import 'package:flutter_application_1/pages/verification/pending_verification.dart';
 import 'package:flutter_application_1/view_models/user_view_model.dart';
+import 'package:permission_handler/permission_handler.dart'
+    as permissionHandler;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:permission_handler/permission_handler.dart' as permissionHandler;
 import 'package:usage_stats/usage_stats.dart';
 
 class AppHelper {
@@ -26,7 +27,8 @@ class AppHelper {
   }
 
   static void showSnackBar(String message, context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   static void setRecurringFalse() async {
@@ -35,17 +37,24 @@ class AppHelper {
   }
 
   static Future<bool> permissionsAllowed() async {
-    var _storageAllowed =
-        await permissionHandler.Permission.storage.status == permissionHandler.PermissionStatus.granted;
-    var _phoneAllowed = await permissionHandler.Permission.phone.status == permissionHandler.PermissionStatus.granted;
-    var _smsAllowed = await permissionHandler.Permission.sms.status == permissionHandler.PermissionStatus.granted;
-    var _locationAllowed =
-        await permissionHandler.Permission.location.status == permissionHandler.PermissionStatus.granted;
-    var _contactsAllowed =
-        await permissionHandler.Permission.contacts.status == permissionHandler.PermissionStatus.granted;
+    var _storageAllowed = await permissionHandler.Permission.storage.status ==
+        permissionHandler.PermissionStatus.granted;
+    var _phoneAllowed = await permissionHandler.Permission.phone.status ==
+        permissionHandler.PermissionStatus.granted;
+    var _smsAllowed = await permissionHandler.Permission.sms.status ==
+        permissionHandler.PermissionStatus.granted;
+    var _locationAllowed = await permissionHandler.Permission.location.status ==
+        permissionHandler.PermissionStatus.granted;
+    var _contactsAllowed = await permissionHandler.Permission.contacts.status ==
+        permissionHandler.PermissionStatus.granted;
     var _usageAllowed = await UsageStats.checkUsagePermission() ?? false;
 
-    return _contactsAllowed && _locationAllowed && _phoneAllowed && _smsAllowed && _storageAllowed && _usageAllowed;
+    return _contactsAllowed &&
+        _locationAllowed &&
+        _phoneAllowed &&
+        _smsAllowed &&
+        _storageAllowed &&
+        _usageAllowed;
   }
 
   static void checkUserStatAndNavigate(context, User? user) {
@@ -69,21 +78,48 @@ class AppHelper {
         locator<UserViewModel>().setUser(user);
         // check if user is verified
         // print(user.verificationDocuments!.toMap());
-        var status = user.verificationDocuments!.bankStatement!['status'] != 'approved' ||
+        var status = user.verificationDocuments!.bankStatement!['status'] !=
+                'approved' ||
             user.verificationDocuments!.idCard!['status'] != 'approved' ||
             user.verificationDocuments!.proofOfAddress!['status'] != 'approved';
 
+
         print("Status $status");
-        if (status) {
-          Navigator.pushReplacementNamed(context, PendingVerificationPage.pageName);
+
+        if (user.verificationDocuments!.bankStatement!['status'] !=
+            'approved') {
+          if (user.verificationDocuments!.idCard!['status'] != 'approved') {
+            if (user.verificationDocuments!.proofOfAddress!['status'] !=
+                'approved') {
+              Navigator.pushReplacementNamed(
+                  context, PendingVerificationPage.pageName);
+            }
+          }
         } else {
           AppHelper.permissionsAllowed().then((value) {
             if (!value)
               Navigator.pushNamed(context, PermissionsPage.pageName);
             else
-              Navigator.pushReplacementNamed(context, HomeWithBottomNavBar.pageName);
+              Navigator.pushReplacementNamed(
+                  context, HomeWithBottomNavBar.pageName);
           });
         }
+        // if (user.verificationDocuments!.bankStatement!['status'] != 'approved' || user.verificationDocuments!.idCard!['status'] != 'approved' ||
+        //     user.verificationDocuments!.proofOfAddress!['status'] != 'approved') {
+        //
+        //
+        //
+        // } else {
+        //   AppHelper.permissionsAllowed().then((value) {
+        //     if (!value)
+        //       Navigator.pushNamed(context, PermissionsPage.pageName);
+        //     else
+        //       Navigator.pushReplacementNamed(
+        //           context, HomeWithBottomNavBar.pageName);
+        //   });
+        //
+        //
+        // }
       }
     } else {
       Navigator.pushReplacementNamed(context, VerificationPage.pageName);

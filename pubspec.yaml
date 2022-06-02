@@ -40,6 +40,7 @@ dependencies:
   flutter_pdfview: ^1.2.2
   permission_handler: ^9.2.0
   usage_stats: ^1.1.1 #android only
+  flutter_local_notifications: ^9.5.3+1
 
 dev_dependencies:
   flutter_test:

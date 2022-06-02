@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/apply/apply_steps_common.dart';
+import 'package:flutter_application_1/pages/main_views/status.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -54,7 +55,8 @@ class _HelpScreenState extends State<HelpScreen> {
                             fit: BoxFit.cover,
                           ),
                           SizedBox(width: 20),
-                          Container(child: Text('Whatsapp support'))
+                          Container(
+                              child: Text('Whatsapp support', style: boldFont))
                         ]),
                       ),
                       SizedBox(height: 20),
@@ -62,18 +64,24 @@ class _HelpScreenState extends State<HelpScreen> {
                         onTap: () async {
                           await launchUrlString('https://www.cashful.me/faq');
                         },
-                        child: Row(children: [
-                          Image(
-                            image: AssetImage('assets/images/globe.png'),
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Container(child: Text('Frequently asked questions'))
-                        ]),
+                        child: Row(
+                            //mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: AssetImage('assets/images/globe.png'),
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                  child: Text(
+                                "FAQ's",
+                                style: boldFont,
+                              ))
+                            ]),
                       ),
                     ],
                   ),

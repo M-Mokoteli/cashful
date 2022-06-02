@@ -86,13 +86,10 @@ class _PhoneInputPageState extends State<PhoneInputPage> {
                                 },
                                 decoration: InputDecoration(
                                     border: UnderlineInputBorder(),
-                                    hintText: "+27"),
-                              ),
-                              SizedBox(
-                                height: 5,
+                                    hintText: "+27 XX XXX XXXX"),
                               ),
                               Text(
-                                  'Please include country code and leave no spaces in between your number'),
+                                  'Please include your country code and leave no spaces in-between'),
                               SizedBox(
                                 height: 40.0,
                               ),

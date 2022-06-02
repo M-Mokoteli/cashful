@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:flutter_application_1/pages/apply/apply_steps_common.dart';
 import 'package:flutter_application_1/pages/main_views/home_with_bottom_navbar.dart';
+import 'package:flutter_application_1/widgets/alert.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
 import 'package:permission_handler/permission_handler.dart'
     as permissionHandler;
@@ -9,12 +10,16 @@ import 'package:usage_stats/usage_stats.dart';
 
 class PermissionsPage extends StatefulWidget {
   static const pageName = "permissions";
+  final fromApply = false;
+
+  PermissionsPage(bool fromApply);
 
   @override
   State<PermissionsPage> createState() => _PermissionsPageState();
 }
 
-class _PermissionsPageState extends State<PermissionsPage> {
+class _PermissionsPageState extends State<PermissionsPage>
+    with WidgetsBindingObserver {
   bool _storageAllowed = false;
 
   bool _usageAllowed = false;
@@ -31,6 +36,14 @@ class _PermissionsPageState extends State<PermissionsPage> {
   void initState() {
     _checkPermissions();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkPermissions();
+    }
   }
 
   _checkPermissions() async {
@@ -43,7 +56,6 @@ class _PermissionsPageState extends State<PermissionsPage> {
     //     oldVersion:
     //         true // will be true for Android versions lower than 23 (MARSHMELLOW)
     //     );
-
     _storageAllowed = await permissionHandler.Permission.storage.status ==
         permissionHandler.PermissionStatus.granted;
     _phoneAllowed = await permissionHandler.Permission.phone.status ==
@@ -240,8 +252,12 @@ class _PermissionsPageState extends State<PermissionsPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40)),
                             onPressed: () {
-                              Navigator.of(context).pushReplacementNamed(
-                                  HomeWithBottomNavBar.pageName);
+                              if (widget.fromApply) {
+                                Navigator.pop(context, true);
+                              } else {
+                                Navigator.of(context).pushReplacementNamed(
+                                    HomeWithBottomNavBar.pageName);
+                              }
                             },
                             child: TextH4(
                               title: "Continue",
@@ -257,6 +273,11 @@ class _PermissionsPageState extends State<PermissionsPage> {
         ));
   }
 
+  _showManualPermissionAlert() {
+    var dialog = showPermissionDialog(context);
+    showDialog(builder: (context) => dialog, context: context);
+  }
+
   _grantLocationPermission() async {
     var _locationPermissionGranted =
         await permissionHandler.Permission.locationWhenInUse.request();
@@ -265,6 +286,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
       setState(() {
         _locationAllowed = true;
       });
+    } else if (_locationPermissionGranted ==
+        permissionHandler.PermissionStatus.permanentlyDenied) {
+      _showManualPermissionAlert();
     }
   }
 
@@ -277,6 +301,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
       setState(() {
         _contactsAllowed = true;
       });
+    } else if (_contactPermissionGranted ==
+        permissionHandler.PermissionStatus.permanentlyDenied) {
+      _showManualPermissionAlert();
     }
   }
 
@@ -287,6 +314,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
       setState(() {
         _phoneAllowed = true;
       });
+    } else if (_phoneCallPermission ==
+        permissionHandler.PermissionStatus.permanentlyDenied) {
+      _showManualPermissionAlert();
     }
   }
 
@@ -315,6 +345,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
       setState(() {
         _smsAllowed = true;
       });
+    } else if (_smsPermission ==
+        permissionHandler.PermissionStatus.permanentlyDenied) {
+      _showManualPermissionAlert();
     }
   }
 
@@ -325,6 +358,9 @@ class _PermissionsPageState extends State<PermissionsPage> {
       setState(() {
         _storageAllowed = true;
       });
+    } else if (_storagePermission ==
+        permissionHandler.PermissionStatus.permanentlyDenied) {
+      _showManualPermissionAlert();
     }
   }
 

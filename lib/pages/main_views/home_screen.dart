@@ -81,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           loanReqeusts.indexWhere(
                                         (element) =>
                                             element.loanStatus == 'pending' ||
-                                            element.loanStatus == 'approved',
+                                            element.loanStatus == 'approved' ||
+                                            element.loanStatus == 'overdue',
                                       );
                                       print(pendingOrapprovedLR);
                                       if (pendingOrapprovedLR != -1) {

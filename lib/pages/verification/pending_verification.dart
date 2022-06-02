@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as currentUser;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:flutter_application_1/configs/locator.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/pages/apply/apply_steps_common.dart';
 import 'package:flutter_application_1/pages/main_views/home_with_bottom_navbar.dart';
 import 'package:flutter_application_1/pages/verification/verification_reupload.dart';
+import 'package:flutter_application_1/services/user_service.dart';
 import 'package:flutter_application_1/view_models/user_view_model.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +56,7 @@ class _PendingVerificationPageState extends State<PendingVerificationPage> {
                       height: 20,
                     ),
                     Text(
-                        'Your information is being verified.\nWe\'ll notify you when verification has\nbeen completed',
+                        'Your information is being verified.We\'ll notify you when verification has nbeen completed',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.black,
@@ -64,15 +67,30 @@ class _PendingVerificationPageState extends State<PendingVerificationPage> {
                     ),
                     Consumer<UserViewModel>(builder: (context, model, child) {
                       log(model.user?.toJson() ?? 'null');
-                      return _stepperWidget(model.user ??
-                          User(
-                              firstName: 'firstName',
-                              lastName: 'lastName',
-                              id: 'id',
-                              address: 'address',
-                              mobileNumber: 'mobileNumber',
-                              dob: 'dob',
-                              fcmToken: 'fcmToken'));
+                      //problematic code here model.user will always be null
+
+                      // var user = model.user;
+
+                      return model.user == null
+                          ? FutureBuilder(
+                              builder: ((context, snapshot) {
+                                return snapshot.data == null
+                                    ? Container()
+                                    : _stepperWidget(snapshot.data as User);
+                              }),
+                              future: forceGetUserData(),
+                            )
+                          : _stepperWidget(model.user!);
+
+                      // _stepperWidget(model.user ??
+                      //     User(
+                      //         firstName: 'firstName',
+                      //         lastName: 'lastName',
+                      //         id: 'id',
+                      //         address: 'address',
+                      //         mobileNumber: 'mobileNumber',
+                      //         dob: 'dob',
+                      //         fcmToken: 'fcmToken'));
                     }),
                   ],
                 ),
@@ -80,6 +98,23 @@ class _PendingVerificationPageState extends State<PendingVerificationPage> {
             ),
           ],
         ));
+  }
+
+  //Fix
+  Future<User> forceGetUserData() async {
+    var db = FirebaseFirestore.instance;
+    var uid = currentUser.FirebaseAuth.instance.currentUser?.uid;
+    var userService = UserService(db);
+
+    var userSnapshot = await userService.getUser(uid!);
+    var user = User.fromFirebase(userSnapshot);
+
+    var documentSnapshot = await userService.getUserDocuments(uid);
+    var documents = VerificationDocuments.fromFirebase(documentSnapshot);
+
+    user.verificationDocuments = documents;
+
+    return user;
   }
 
   String _getStatus(User user) {
@@ -106,7 +141,6 @@ class _PendingVerificationPageState extends State<PendingVerificationPage> {
   Widget _stepperWidget(User user) {
     VerificationDocuments? verificationDocuments =
         user.verificationDocuments ?? null;
-
     var rejected = (verificationDocuments == null)
         ? true
         : verificationDocuments.bankStatement!['status'] == "rejected" ||

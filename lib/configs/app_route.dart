@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/models/bank_detail_model.dart';
 import 'package:flutter_application_1/models/loan_request_model.dart';
 import 'package:flutter_application_1/pages/apply/apply_final_step.dart';
@@ -41,8 +40,6 @@ class AppRoute {
         return _materialPageRoute(SplashPage(), settings);
       case HomeWithBottomNavBar.pageName:
         return _materialPageRoute(HomeWithBottomNavBar(), settings);
-      case LoginScreen.pageName:
-        return _materialPageRoute(LoginScreen(), settings);
       case PhoneInputPage.pageName:
         return _materialPageRoute(PhoneInputPage(), settings);
       case OTPVerificationPage.pageName:
@@ -89,7 +86,7 @@ class AppRoute {
       case ReuploadProofOfAddressPage.pageName:
         return _materialPageRoute(ReuploadProofOfAddressPage(), settings);
       case PermissionsPage.pageName:
-        return _materialPageRoute(PermissionsPage(), settings);
+        return _materialPageRoute(PermissionsPage(false), settings);
       case UpdateBankAccountScreen.pageName:
         BankDetail bankDetail = settings.arguments as BankDetail;
         return _materialPageRoute(

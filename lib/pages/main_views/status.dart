@@ -43,191 +43,216 @@ class _StatusScreenState extends State<StatusScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: TextH1(title: "Status"),
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                        height: 550,
-                        width: kScreenWidth(context),
-                        margin: EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(40)),
-                        child: Column(children: [
-                          SizedBox(height: 30),
-                          Container(
-                              width: 200,
-                              height: 200,
-                              child: Stack(children: <Widget>[
-                                Container(
-                                    child: Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                                          offset: Offset(0, 4),
-                                          blurRadius: 10)
-                                    ],
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    border: Border.all(
-                                      color: Color.fromRGBO(243, 243, 243, 1),
-                                      width: 7,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                          height: 550,
+                          width: kScreenWidth(context),
+                          margin: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(40)),
+                          child: Column(children: [
+                            SizedBox(height: 30),
+                            Container(
+                                width: 200,
+                                height: 200,
+                                child: Stack(children: <Widget>[
+                                  Container(
+                                      child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0, 4),
+                                            blurRadius: 10)
+                                      ],
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      border: Border.all(
+                                        color: Color.fromRGBO(243, 243, 243, 1),
+                                        width: 7,
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(200, 200)),
                                     ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(200, 200)),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 60,
-                                      ),
-                                      Container(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            'Outstanding balance',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    0, 0, 0, 0.699999988079071),
-                                                fontFamily: 'Inter',
-                                                fontSize: 13,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.normal,
-                                                height: 1),
-                                          )),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Container(
-                                          alignment: Alignment.center,
-                                          child: Column(children: [
-                                            model.state == ViewState.Idle &&
-                                                    null != model.loanRequest
-                                                ? Text(
-                                                    "R ${model.loanRequest!.totalRepayable}",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(
-                                                            0,
-                                                            0,
-                                                            0,
-                                                            0.699999988079071),
-                                                        fontFamily: 'Inter',
-                                                        fontSize: 28,
-                                                        letterSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        height: 1),
-                                                  )
-                                                : _textLoadingDefault
-                                          ])),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                          alignment: Alignment.center,
-                                          child:
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 60,
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Outstanding balance',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Color.fromRGBO(0, 0, 0,
+                                                      0.699999988079071),
+                                                  fontFamily: 'Inter',
+                                                  fontSize: 13,
+                                                  letterSpacing: 0,
+                                                  fontWeight: FontWeight.normal,
+                                                  height: 1),
+                                            )),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: Column(children: [
                                               model.state == ViewState.Idle &&
                                                       null != model.loanRequest
                                                   ? Text(
-                                                      "Due: ${_formatDate(DateTime.parse(model.loanRequest!.loanDate!).add(Duration(days: int.parse(model.loanRequest!.paymentTime))).toString())}",
-                                                      textAlign: TextAlign.left,
+                                                      "R ${(double.parse(model.loanRequest!.totalRepayable) + (model.loanRequest?.loanStatus == 'overdue' ? (double.parse(model.loanRequest!.loanAmount) * 0.05) : 0)).toStringAsFixed(2)}",
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: TextStyle(
-                                                          color: kPrimaryBlue,
+                                                          color: Color.fromRGBO(
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              0.699999988079071),
                                                           fontFamily: 'Inter',
-                                                          fontSize: 14,
+                                                          fontSize: 28,
                                                           letterSpacing: 0,
                                                           fontWeight:
-                                                              FontWeight.bold,
+                                                              FontWeight.normal,
                                                           height: 1),
                                                     )
-                                                  : _textLoadingDefault),
-                                    ],
-                                  ),
-                                )),
-                              ])),
-                          SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 29),
-                            child: Row(children: [
-                              Text('Loan details', style: boldFont)
-                            ]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(30),
-                            child: Column(children: [
-                              Row(
+                                                  : _textLoadingDefault
+                                            ])),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            child: model.state ==
+                                                        ViewState.Idle &&
+                                                    null != model.loanRequest
+                                                ? Text(
+                                                    "Due: ${_formatDate(DateTime.parse(model.loanRequest!.loanDate!).add(Duration(days: int.parse(model.loanRequest!.paymentTime))).toString())}",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: kPrimaryBlue,
+                                                        fontFamily: 'Inter',
+                                                        fontSize: 14,
+                                                        letterSpacing: 0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        height: 1),
+                                                  )
+                                                : _textLoadingDefault),
+                                      ],
+                                    ),
+                                  )),
+                                ])),
+                            SizedBox(height: 30),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 29),
+                              child: Row(children: [
+                                Text('Loan details', style: boldFont)
+                              ]),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(30),
+                              child: Column(children: [
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Loan amount'),
+                                      SizedBox(width: 80),
+                                      model.state == ViewState.Idle &&
+                                              null != model.loanRequest
+                                          ? Text(
+                                              "R ${model.loanRequest!.loanAmount}",
+                                              style: boldFont,
+                                            )
+                                          : _textLoadingDefault
+                                    ]),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Loan amount'),
-                                    SizedBox(width: 80),
+                                    Text('Interest'),
+                                    SizedBox(width: 116),
                                     model.state == ViewState.Idle &&
                                             null != model.loanRequest
                                         ? Text(
-                                            "R ${model.loanRequest!.loanAmount}",
+                                            "R ${(double.parse(model.loanRequest!.totalRepayable) - double.parse(model.loanRequest!.loanAmount)).toStringAsFixed(2)}",
                                             style: boldFont,
                                           )
                                         : _textLoadingDefault
-                                  ]),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Interest'),
-                                  SizedBox(width: 116),
-                                  model.state == ViewState.Idle &&
-                                          null != model.loanRequest
-                                      ? Text(
-                                          "R ${(double.parse(model.loanRequest!.totalRepayable) - double.parse(model.loanRequest!.loanAmount)).toStringAsFixed(2)}",
-                                          style: boldFont,
-                                        )
-                                      : _textLoadingDefault
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                if (model.loanRequest?.loanStatus ==
+                                    'overdue') ...[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Overdue'),
+                                      SizedBox(width: 116),
+                                      model.state == ViewState.Idle &&
+                                              null != model.loanRequest
+                                          ? Text(
+                                              "R ${(double.parse(model.loanRequest!.loanAmount) * 0.05).toStringAsFixed(2)}",
+                                              style: boldFont,
+                                            )
+                                          : _textLoadingDefault
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                 ],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Loan term'),
-                                  SizedBox(width: 100),
-                                  model.state == ViewState.Idle &&
-                                          null != model.loanRequest
-                                      ? Text(
-                                          "${model.loanRequest!.paymentTime} days",
-                                          style: boldFont,
-                                        )
-                                      : _textLoadingDefault
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Loan date'),
-                                  SizedBox(width: 116),
-                                  model.state == ViewState.Idle &&
-                                          null != model.loanRequest
-                                      ? Text(
-                                          "${_formatDate(model.loanRequest!.loanDate!)}",
-                                          style: boldFont,
-                                        )
-                                      : _textLoadingDefault
-                                ],
-                              ),
-                            ]),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ])),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Loan term'),
+                                    SizedBox(width: 100),
+                                    model.state == ViewState.Idle &&
+                                            null != model.loanRequest
+                                        ? Text(
+                                            "${model.loanRequest!.paymentTime} days",
+                                            style: boldFont,
+                                          )
+                                        : _textLoadingDefault
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Loan date'),
+                                    SizedBox(width: 116),
+                                    model.state == ViewState.Idle &&
+                                            null != model.loanRequest
+                                        ? Text(
+                                            "${_formatDate(model.loanRequest!.loanDate!)}",
+                                            style: boldFont,
+                                          )
+                                        : _textLoadingDefault
+                                  ],
+                                ),
+                              ]),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ])),
+                    ),
                   ),
                 ],
               ),

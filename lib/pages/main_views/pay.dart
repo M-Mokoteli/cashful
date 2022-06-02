@@ -39,7 +39,7 @@ class _PayScreenState extends State<PayScreen> {
                         child: Text('Payment methods',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold))),
+                                fontWeight: FontWeight.bold, fontSize: 18))),
                     SizedBox(
                       height: 30,
                     ),
@@ -53,16 +53,16 @@ class _PayScreenState extends State<PayScreen> {
                           children: [
                             Container(
                                 child: Image(
+                                    height: 40,
+                                    width: 40,
                                     image:
                                         AssetImage('assets/images/mtn.png'))),
                             SizedBox(
                               width: 25,
                             ),
                             Container(
-                                child: Text(
-                              'MTN Mobile Money',
-                              style: boldFont,
-                            ))
+                                child:
+                                    Text('MTN Mobile Money', style: boldFont))
                           ]),
                     ),
                     SizedBox(height: 40),

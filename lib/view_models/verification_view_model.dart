@@ -52,8 +52,8 @@ class VerificationViewModel extends BaseViewModel {
   Future<bool> addPaymentInfo(PaymentInfo paymentInfo) async {
     setState(ViewState.Busy);
     try {
-      // var result = await _userRepository.addPaymentInfo(
-      //     paymentInfo, _firebaseHelper.getUserId()!);
+      var result = await _userRepository.addPaymentInfo(
+          paymentInfo, _firebaseHelper.getUserId()!);
       setState(ViewState.Idle);
       return true;
     } catch (e) {
