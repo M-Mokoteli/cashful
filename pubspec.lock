@@ -323,6 +323,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.4"
+  firebase_database:
+    dependency: "direct main"
+    description:
+      name: firebase_database
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.15"
+  firebase_database_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_database_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1+7"
+  firebase_database_web:
+    dependency: transitive
+    description:
+      name: firebase_database_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0+14"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -377,6 +398,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_contacts:
+    dependency: "direct main"
+    description:
+      name: flutter_contacts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   flutter_form_builder:
     dependency: "direct main"
     description:
@@ -569,6 +597,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  location:
+    dependency: "direct main"
+    description:
+      name: location
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.4.0"
+  location_platform_interface:
+    dependency: transitive
+    description:
+      name: location_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
+  location_web:
+    dependency: transitive
+    description:
+      name: location_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
   logging:
     dependency: transitive
     description:

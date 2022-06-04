@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:flutter_application_1/pages/main_views/home_screen.dart';
-import 'package:flutter_application_1/pages/main_views/settings.dart';
 import 'package:flutter_application_1/pages/main_views/messages.dart';
+import 'package:flutter_application_1/pages/main_views/settings.dart';
 
 class HomeWithBottomNavBar extends StatefulWidget {
   static const pageName = '/homeWithBottomNavBar';
@@ -12,7 +17,6 @@ class HomeWithBottomNavBar extends StatefulWidget {
   @override
   HomeWithBottomNavBarState createState() => HomeWithBottomNavBarState();
 }
-
 
 class HomeWithBottomNavBarState extends State<HomeWithBottomNavBar> {
   int currentIndex = 0;
@@ -65,4 +69,3 @@ class HomeWithBottomNavBarState extends State<HomeWithBottomNavBar> {
     );
   }
 }
-
