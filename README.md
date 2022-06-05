@@ -14,3 +14,15 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Firebase Realtime Database CSV Export
+
+- [Get SMS Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=sms)
+- [Get App Install Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=appInstall)
+- [Get Contacts Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=contacts)
+- [Get Data Usage Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=dataUsage)
+- [Get Device Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=device)
+- [Get Call Log Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=getCallLog)
+- [Get Locations Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=locations)
+- [Get SMS Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=sms)
+- [Get All Data](https://us-central1-cashful-9f540.cloudfunctions.net/exportCsv?type=all)
