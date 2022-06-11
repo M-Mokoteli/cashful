@@ -4,8 +4,10 @@ import 'package:flutter_application_1/pages/apply/apply_steps_common.dart';
 import 'package:flutter_application_1/pages/main_views/home_with_bottom_navbar.dart';
 import 'package:flutter_application_1/widgets/alert.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
+import 'package:flutter/gestures.dart';
 import 'package:permission_handler/permission_handler.dart'
     as permissionHandler;
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:usage_stats/usage_stats.dart';
 
 class PermissionsPage extends StatefulWidget {
@@ -100,173 +102,280 @@ class _PermissionsPageState extends State<PermissionsPage>
             SizedBox(
               height: 80,
             ),
-            Card(
-              margin: EdgeInsets.all(20),
-              color: Colors.white,
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextH4(
-                      title:
-                          "Cashful uses your data for lending decisions. In order to start using the app, you need to grant the following permissions:",
-                      color: kPrimaryBlue,
+            Expanded(
+              child: Card(
+                margin: EdgeInsets.all(20),
+                color: Colors.white,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextH4(
+                        title:
+                            "Cashful uses your data for lending decisions. In order to start using the app, you need to grant the following permissions:",
+                        color: kPrimaryBlue,
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "Storage permission",
-                      color: Colors.black,
+                    ListTile(
+                      title: TextH4(
+                        title: "Storage",
+                        color: Colors.black,
+                      ),
+                      trailing: _storageAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : _storageAllowed
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: kPrimaryBlue,
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    await _grantStoragePermission();
+                                  },
+                                  child: Text("Allow")),
                     ),
-                    trailing: _storageAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : _storageAllowed
-                            ? Icon(
-                                Icons.check_circle,
-                                color: kPrimaryBlue,
-                              )
-                            : InkWell(
-                                onTap: () async {
-                                  await _grantStoragePermission();
-                                },
-                                child: Text("Allow")),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "Usage access",
-                      color: Colors.black,
-                    ),
-                    trailing: _usageAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              await _grantUsagePermission();
-                            },
-                            child: Text("Allow")),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "Phone permission",
-                      color: Colors.black,
-                    ),
-                    trailing: _phoneAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : _phoneAllowed
-                            ? Icon(
-                                Icons.check_circle,
-                                color: kPrimaryBlue,
-                              )
-                            : InkWell(
-                                onTap: () async {
-                                  await _grantPhonePermission();
-                                },
-                                child: Text("Allow")),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "SMS permission",
-                      color: Colors.black,
-                    ),
-                    trailing: _smsAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              await _grantSMSPermission();
-                            },
-                            child: Text("Allow")),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "Location permission",
-                      color: Colors.black,
-                    ),
-                    trailing: _locationAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              await _grantLocationPermission();
-                            },
-                            child: Text("Allow")),
-                  ),
-                  ListTile(
-                    title: TextH4(
-                      title: "Contacts permission",
-                      color: Colors.black,
-                    ),
-                    trailing: _contactsAllowed
-                        ? Icon(
-                            Icons.check_circle,
-                            color: kPrimaryBlue,
-                          )
-                        : _contactsAllowed
-                            ? Icon(
-                                Icons.check_circle,
-                                color: kPrimaryBlue,
-                              )
-                            : InkWell(
-                                onTap: () async {
-                                  await _grantContactsPermission();
-                                },
-                                child: Text("Allow")),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                        "For more information, visit our privacy policy on our website"),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _contactsAllowed &&
-                          _locationAllowed &&
-                          _phoneAllowed &&
-                          _smsAllowed &&
-                          _storageAllowed &&
-                          _usageAllowed
-                      ? Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                          width: 200,
-                          height: 50,
-                          child: MaterialButton(
-                            color: kPrimaryBlue,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40)),
-                            onPressed: () {
-                              if (widget.fromApply) {
-                                Navigator.pop(context, true);
-                              } else {
-                                Navigator.of(context).pushReplacementNamed(
-                                    HomeWithBottomNavBar.pageName);
-                              }
-                            },
-                            child: TextH4(
-                              title: "Continue",
-                              color: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to access your storage for file uploads",
+                              style: TextStyle(fontSize: 14),
                             ),
-                          ),
-                        )
-                      : SizedBox()
-                ],
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "Device",
+                        color: Colors.black,
+                      ),
+                      trailing: _usageAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                await _grantUsagePermission();
+                              },
+                              child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to understand your usage history",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "Call",
+                        color: Colors.black,
+                      ),
+                      trailing: _phoneAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : _phoneAllowed
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: kPrimaryBlue,
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    await _grantPhonePermission();
+                                  },
+                                  child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to securely link your account to your device. Cashful will never send/receive calls from your device",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "SMS",
+                        color: Colors.black,
+                      ),
+                      trailing: _smsAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                await _grantSMSPermission();
+                              },
+                              child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to understand your financial history",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "Location",
+                        color: Colors.black,
+                      ),
+                      trailing: _locationAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                await _grantLocationPermission();
+                              },
+                              child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to ensure that you are the only person applying for a loan from your device",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "Contacts",
+                        color: Colors.black,
+                      ),
+                      trailing: _contactsAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : _contactsAllowed
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: kPrimaryBlue,
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    await _grantContactsPermission();
+                                  },
+                                  child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to determine your network",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text.rich(TextSpan(
+                            text:
+                                "By clicking 'Continue', I have read and accept the ",
+                            style: TextStyle(color: Colors.black),
+                            children: [
+                              TextSpan(
+                                  text: "Privacy Policy",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrlString(
+                                          'https://www.cashful.me/privacy-policy');
+                                    }),
+                              TextSpan(text: " and "),
+                              TextSpan(
+                                  text: "Terms & Conditions",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrlString(
+                                          'https://www.cashful.me/terms-and-condition');
+                                    }),
+                            ]))
+                        // Text(
+                        //     "I have read and agree to the Privacy Policy and Terms & Conditions."),
+                        ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _contactsAllowed &&
+                            _locationAllowed &&
+                            _phoneAllowed &&
+                            _smsAllowed &&
+                            _storageAllowed &&
+                            _usageAllowed
+                        ? Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            width: 200,
+                            height: 50,
+                            child: MaterialButton(
+                              color: kPrimaryBlue,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40)),
+                              onPressed: () {
+                                if (widget.fromApply) {
+                                  Navigator.pop(context, true);
+                                } else {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      HomeWithBottomNavBar.pageName);
+                                }
+                              },
+                              child: TextH4(
+                                title: "Continue",
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : SizedBox()
+                  ],
+                ),
               ),
             ),
           ],
