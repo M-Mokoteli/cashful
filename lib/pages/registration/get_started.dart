@@ -40,23 +40,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
     super.initState();
   }
 
-  // void uploadPersonalDetails() async {
-  //   await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(Firebasehe)
-  //       .collection('Profile')
-  //       .doc('Personal details')
-  //       .set({
-  //     'First name': firstName.text,
-  //     'Last name': lastName.text,
-  //     'Gender': gender.text,
-  //     'Date of birth': dateOfBirth.text,
-  //     'ID': id.text,
-  //     'Address': address.text,
-  //     'Mobile number': mobileNumber.text
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     var viewModel = locator<GetStartedViewModel>();
