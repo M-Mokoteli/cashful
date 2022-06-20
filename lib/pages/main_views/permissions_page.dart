@@ -180,69 +180,69 @@ class _PermissionsPageState extends State<PermissionsPage>
                         ],
                       ),
                     ),
-                    // ListTile(
-                    //   title: TextH4(
-                    //     title: "Call",
-                    //     color: Colors.black,
-                    //   ),
-                    //   trailing: _phoneAllowed
-                    //       ? Icon(
-                    //           Icons.check_circle,
-                    //           color: kPrimaryBlue,
-                    //         )
-                    //       : _phoneAllowed
-                    //           ? Icon(
-                    //               Icons.check_circle,
-                    //               color: kPrimaryBlue,
-                    //             )
-                    //           : InkWell(
-                    //               onTap: () async {
-                    //                 await _grantPhonePermission();
-                    //               },
-                    //               child: Text("Allow")),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 20.0, right: 18.0),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Text(
-                    //           "Used to securely link your account to your device. Cashful will never send/receive calls from your device",
-                    //           style: TextStyle(fontSize: 14),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    // ListTile(
-                    //   title: TextH4(
-                    //     title: "SMS",
-                    //     color: Colors.black,
-                    //   ),
-                    //   trailing: _smsAllowed
-                    //       ? Icon(
-                    //           Icons.check_circle,
-                    //           color: kPrimaryBlue,
-                    //         )
-                    //       : InkWell(
-                    //           onTap: () async {
-                    //             await _grantSMSPermission();
-                    //           },
-                    //           child: Text("Allow")),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 20.0, right: 18.0),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Text(
-                    //           "Used to understand your financial history",
-                    //           style: TextStyle(fontSize: 14),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
+                    ListTile(
+                      title: TextH4(
+                        title: "Call",
+                        color: Colors.black,
+                      ),
+                      trailing: _phoneAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : _phoneAllowed
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: kPrimaryBlue,
+                                )
+                              : InkWell(
+                                  onTap: () async {
+                                    await _grantPhonePermission();
+                                  },
+                                  child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to securely link your account to your device. Cashful will never send/receive calls from your device",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    ListTile(
+                      title: TextH4(
+                        title: "SMS",
+                        color: Colors.black,
+                      ),
+                      trailing: _smsAllowed
+                          ? Icon(
+                              Icons.check_circle,
+                              color: kPrimaryBlue,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                await _grantSMSPermission();
+                              },
+                              child: Text("Allow")),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Used to understand your financial history",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     ListTile(
                       title: TextH4(
                         title: "Location",
@@ -343,8 +343,8 @@ class _PermissionsPageState extends State<PermissionsPage>
                     ),
                     _contactsAllowed &&
                             _locationAllowed &&
-                            // _phoneAllowed &&
-                            // _smsAllowed &&
+                            _phoneAllowed &&
+                            _smsAllowed &&
                             _storageAllowed &&
                             _usageAllowed
                         ? Container(
