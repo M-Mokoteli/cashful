@@ -224,9 +224,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onTap: () async {
                                         await uploadAllData().then(
                                           (value) async {
-                                            await applyFunction(model);
+                                            await applyFunction(model)
+                                                .catchError(
+                                              (onError) {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      "Something went wrong. Please check the app permissions and try again.",
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
                                           },
-                                        );
+                                        ).catchError((onError) {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                "Something went wrong. Please check the app permissions and try again.",
+                                              ),
+                                            ),
+                                          );
+                                        });
                                       },
                                       child: _floatingHomeCard(
                                           'assets/images/apply.svg', 'Apply'),
