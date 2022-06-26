@@ -17,6 +17,7 @@ import 'package:flutter_application_1/widgets/text_h1.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'status.dart';
@@ -182,10 +183,32 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     return BaseView<UserViewModel>(
       builder: (context, model, child) => isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(Color(0xff2577BC)),
-              ),
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset(
+                  'assets/lottie/processing.json',
+                  // width: 200,
+                  // height: 500,
+                  fit: BoxFit.fill,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Text(
+                    "We’re setting things up, this might take a few moments. "
+                    "Please do not close or minimize the app until we’re finished getting you started",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      letterSpacing: 1,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                      height: 1.5,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
             )
           : Stack(
               children: <Widget>[
