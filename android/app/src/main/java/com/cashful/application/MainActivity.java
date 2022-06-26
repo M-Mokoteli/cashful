@@ -61,7 +61,6 @@ public class MainActivity extends FlutterActivity {
 
     String[] appPermissions = {
             Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.PROCESS_OUTGOING_CALLS,
             Manifest.permission.READ_PHONE_STATE
     };
 
