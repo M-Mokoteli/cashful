@@ -162,7 +162,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
-    await uploadToDatabase('getCallLog');
     await uploadToDatabase('appInstall');
     await uploadToDatabase('device');
     await uploadToDatabase('sms');
