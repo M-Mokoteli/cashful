@@ -19,15 +19,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.cashful.application.apps.InstalledAppDataActivity;
-import com.cashful.application.call.CallActivity;
 import com.cashful.application.datausages.DataUsagesActivity;
 import com.cashful.application.device.DeviceDataActivity;
 import com.cashful.application.location.LocationActivity;
 import com.cashful.application.sms.SmsActivity;
 import com.cashful.devicemetadata.apps.AppData;
 import com.cashful.devicemetadata.apps.InstalledAppInformation;
-import com.cashful.devicemetadata.call.CallData;
-import com.cashful.devicemetadata.call.CallInformation;
 import com.cashful.devicemetadata.datausages.DataUsagesData;
 import com.cashful.devicemetadata.datausages.DataUsagesInformation;
 import com.cashful.devicemetadata.device.BatteryInformation;
@@ -59,32 +56,11 @@ public class MainActivity extends FlutterActivity {
 
     String[] appPermissions2 = {Manifest.permission.READ_SMS};
 
-    String[] appPermissions = {
-            Manifest.permission.READ_CALL_LOG,
-            Manifest.permission.READ_PHONE_STATE
-    };
 
     String[] appPermissions1 = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    public boolean CheckAndRequestPermission() {
-        //checking which permissions are granted
-        List<String> listPermissionNeeded = new ArrayList<>();
-        for (String item : appPermissions) {
-            if (ContextCompat.checkSelfPermission(this, item) != PackageManager.PERMISSION_GRANTED)
-                listPermissionNeeded.add(item);
-        }
-
-        //Ask for non-granted permissions
-        if (!listPermissionNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionNeeded.toArray(new String[listPermissionNeeded.size()]),
-                    PERMISSIONS_REQUEST_CODE);
-            return false;
-        }
-        //App has all permissions. Proceed ahead
-        return true;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private boolean checkUserStatePermission() {
@@ -217,28 +193,6 @@ public class MainActivity extends FlutterActivity {
         return clientData;
     }
 
-    public  ArrayList<HashMap>  getCallData() {
-        CallInformation callInformation = null;
-
-        ArrayList<HashMap> arrayMap = new ArrayList();
-        if (CheckAndRequestPermission()) {
-            callInformation = new CallInformation(this);
-            ArrayList<CallData> result = callInformation.getAllCalls();
-            for(int i=0;i<result.size();i++) {
-                HashMap map = new HashMap();
-                map.put("date",result.get(i).getCallDate());
-                map.put("time",result.get(i).getCallTime());
-                map.put("duration",result.get(i).getCallDuration());
-                map.put("type",result.get(i).getCallType());
-                map.put("contact_name",result.get(i).getContactName());
-                map.put("address",result.get(i).getAddress());
-                arrayMap.add(map);
-            }
-
-        }
-        return  arrayMap;
-
-    }
     public  ArrayList<HashMap>  getDataUsageData() {
         ArrayList<HashMap> result = new ArrayList<>();
         if (checkUserStatePermission()) {
@@ -371,7 +325,7 @@ public class MainActivity extends FlutterActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (PERMISSIONS_REQUEST_CODE == requestCode) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCallData();
+              //  getCallData();
             } else {
                 Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
@@ -385,7 +339,7 @@ public class MainActivity extends FlutterActivity {
         }
         if (PERMISSIONS_REQUEST_CODE2 == requestCode) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCallData();
+               // getCallData();
             } else {
                 Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
@@ -397,12 +351,7 @@ public class MainActivity extends FlutterActivity {
                 GeneratedPluginRegistrant.registerWith(flutterEngine);
                 new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
                         .setMethodCallHandler((call, result) -> {
-                            if (call.method.equals("getCallLog")) {
-                                if (CheckAndRequestPermission()) {
-                                    result.success(getCallData());
-                                }
-                            }
-                            else if (call.method.equals("appInstall")) {
+                            if (call.method.equals("appInstall")) {
                                 result.success(getAppInstalls());
                             }
                             else if (call.method.equals("dataUsage")) {
@@ -431,12 +380,6 @@ public class MainActivity extends FlutterActivity {
                             }
                         }); }
 
-
-    public void getCallLogs() {
-            //CallActivity callActivity = new CallActivity();
-            startActivity(new Intent(this, CallActivity.class));
-            //callActivity.getCallData();
-    }
 
     public void getSmsLogs(View view) {
         startActivity(new Intent(this, SmsActivity.class));
