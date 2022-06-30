@@ -54,9 +54,6 @@ public class MainActivity extends FlutterActivity {
 
     private static final int PERMISSIONS_REQUEST_CODE2 = 2;
 
-    String[] appPermissions2 = {Manifest.permission.READ_SMS};
-
-
     String[] appPermissions1 = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -83,24 +80,6 @@ public class MainActivity extends FlutterActivity {
         if (!listPermissionNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionNeeded.toArray(new String[listPermissionNeeded.size()]),
                     PERMISSIONS_REQUEST_CODE1);
-            return false;
-        }
-        //App has all permissions. Proceed ahead
-        return true;
-    }
-
-    public boolean CheckAndRequestPermission2() {
-        //checking which permissions are granted
-        List<String> listPermissionNeeded = new ArrayList<>();
-        for (String item : appPermissions2) {
-            if (ContextCompat.checkSelfPermission(this, item) != PackageManager.PERMISSION_GRANTED)
-                listPermissionNeeded.add(item);
-        }
-
-        //Ask for non-granted permissions
-        if (!listPermissionNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionNeeded.toArray(new String[listPermissionNeeded.size()]),
-                    PERMISSIONS_REQUEST_CODE2);
             return false;
         }
         //App has all permissions. Proceed ahead
@@ -295,28 +274,6 @@ public class MainActivity extends FlutterActivity {
 
         return  result;
     }
-    public  ArrayList<HashMap> getSMS() {
-        ArrayList<HashMap> arrayMap = new ArrayList();
-        if (CheckAndRequestPermission2()) {
-            SmsInformation smsInformation = new SmsInformation(this);
-            ArrayList<SmsData> sms = smsInformation.getAllSms();
-
-            for(int i=0;i<sms.size();i++) {
-                HashMap map = new HashMap();
-                map.put("address",sms.get(i).getAddress());
-                map.put("time",sms.get(i).getTime());
-                map.put("folderName",sms.get(i).getFolderName());
-                map.put("id",sms.get(i).getId());
-                map.put("message",sms.get(i).getMessage());
-                map.put("readState",sms.get(i).getReadState());
-                arrayMap.add(map);
-            }
-        }
-
-
-        return  arrayMap;
-
-    }
     
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -375,15 +332,8 @@ public class MainActivity extends FlutterActivity {
                             else if (call.method.equals("location")) {
                                 result.success(getLocationData());
                             }
-                            else if (call.method.equals("sms")) {
-                                result.success(getSMS());
-                            }
                         }); }
 
-
-    public void getSmsLogs(View view) {
-        startActivity(new Intent(this, SmsActivity.class));
-    }
 
     public void getDeviceData(View view) {
         startActivity(new Intent(this, DeviceDataActivity.class));
