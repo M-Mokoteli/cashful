@@ -1,10 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/configs/colors.dart';
 import 'package:flutter_application_1/pages/apply/apply_steps_common.dart';
 import 'package:flutter_application_1/pages/main_views/home_with_bottom_navbar.dart';
 import 'package:flutter_application_1/widgets/alert.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
-import 'package:flutter/gestures.dart';
 import 'package:permission_handler/permission_handler.dart'
     as permissionHandler;
 import 'package:url_launcher/url_launcher_string.dart';
@@ -25,10 +25,6 @@ class _PermissionsPageState extends State<PermissionsPage>
   bool _storageAllowed = false;
 
   bool _usageAllowed = false;
-
-  bool _phoneAllowed = false;
-
-  bool _smsAllowed = false;
 
   bool _locationAllowed = false;
 
@@ -60,10 +56,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     //     );
     _storageAllowed = await permissionHandler.Permission.storage.status ==
         permissionHandler.PermissionStatus.granted;
-    _phoneAllowed = await permissionHandler.Permission.phone.status ==
-        permissionHandler.PermissionStatus.granted;
-    _smsAllowed = await permissionHandler.Permission.sms.status ==
-        permissionHandler.PermissionStatus.granted;
     _locationAllowed = await permissionHandler.Permission.location.status ==
         permissionHandler.PermissionStatus.granted;
     _contactsAllowed = await permissionHandler.Permission.contacts.status ==
@@ -75,10 +67,6 @@ class _PermissionsPageState extends State<PermissionsPage>
   permissionsAllowed() async {
     _storageAllowed = await permissionHandler.Permission.storage.status ==
         permissionHandler.PermissionStatus.granted;
-    _phoneAllowed = await permissionHandler.Permission.phone.status ==
-        permissionHandler.PermissionStatus.granted;
-    _smsAllowed = await permissionHandler.Permission.sms.status ==
-        permissionHandler.PermissionStatus.granted;
     _locationAllowed = await permissionHandler.Permission.location.status ==
         permissionHandler.PermissionStatus.granted;
     _contactsAllowed = await permissionHandler.Permission.contacts.status ==
@@ -87,8 +75,6 @@ class _PermissionsPageState extends State<PermissionsPage>
 
     return _contactsAllowed &&
         _locationAllowed &&
-        _phoneAllowed &&
-        _smsAllowed &&
         _storageAllowed &&
         _usageAllowed;
   }
@@ -174,69 +160,6 @@ class _PermissionsPageState extends State<PermissionsPage>
                           Expanded(
                             child: Text(
                               "Used to understand your usage history",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: TextH4(
-                        title: "Call",
-                        color: Colors.black,
-                      ),
-                      trailing: _phoneAllowed
-                          ? Icon(
-                              Icons.check_circle,
-                              color: kPrimaryBlue,
-                            )
-                          : _phoneAllowed
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: kPrimaryBlue,
-                                )
-                              : InkWell(
-                                  onTap: () async {
-                                    await _grantPhonePermission();
-                                  },
-                                  child: Text("Allow")),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Used to securely link your account to your device. Cashful will never send/receive calls from your device",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    ListTile(
-                      title: TextH4(
-                        title: "SMS",
-                        color: Colors.black,
-                      ),
-                      trailing: _smsAllowed
-                          ? Icon(
-                              Icons.check_circle,
-                              color: kPrimaryBlue,
-                            )
-                          : InkWell(
-                              onTap: () async {
-                                await _grantSMSPermission();
-                              },
-                              child: Text("Allow")),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Used to understand your financial history",
                               style: TextStyle(fontSize: 14),
                             ),
                           )
@@ -343,8 +266,6 @@ class _PermissionsPageState extends State<PermissionsPage>
                     ),
                     _contactsAllowed &&
                             _locationAllowed &&
-                            _phoneAllowed &&
-                            _smsAllowed &&
                             _storageAllowed &&
                             _usageAllowed
                         ? Container(
@@ -413,19 +334,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     }
   }
 
-  _grantPhonePermission() async {
-    var _phoneCallPermission =
-        await permissionHandler.Permission.phone.request();
-    if (_phoneCallPermission == permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _phoneAllowed = true;
-      });
-    } else if (_phoneCallPermission ==
-        permissionHandler.PermissionStatus.permanentlyDenied) {
-      _showManualPermissionAlert();
-    }
-  }
-
   _grantUsagePermission() async {
     if (await UsageStats.checkUsagePermission() ?? false) {
       setState(() {
@@ -442,18 +350,6 @@ class _PermissionsPageState extends State<PermissionsPage>
       setState(() {
         _usageAllowed = true;
       });
-    }
-  }
-
-  _grantSMSPermission() async {
-    var _smsPermission = await permissionHandler.Permission.sms.request();
-    if (_smsPermission == permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _smsAllowed = true;
-      });
-    } else if (_smsPermission ==
-        permissionHandler.PermissionStatus.permanentlyDenied) {
-      _showManualPermissionAlert();
     }
   }
 
@@ -489,19 +385,6 @@ class _PermissionsPageState extends State<PermissionsPage>
         permissionHandler.PermissionStatus.granted) {
       setState(() {
         _contactsAllowed = true;
-      });
-    }
-    var _phoneCallPermission =
-        await permissionHandler.Permission.phone.request();
-    if (_phoneCallPermission == permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _phoneAllowed = true;
-      });
-    }
-    var _smsPermission = await permissionHandler.Permission.sms.request();
-    if (_smsPermission == permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _smsAllowed = true;
       });
     }
     var _storagePermission =
