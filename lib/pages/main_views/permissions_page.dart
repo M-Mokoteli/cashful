@@ -144,7 +144,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                         children: [
                           Expanded(
                             child: Text(
-                              "Used to access your storage for file uploads",
+                              "Used to enable document and photo uploads as part of our identity verification process. We may request you to upload copies of documents as proof of income.",
                               style: TextStyle(fontSize: 14),
                             ),
                           )
@@ -299,7 +299,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                         children: [
                           Expanded(
                             child: Text(
-                              "Used to determine your network",
+                              "Contact lists are used to determine whether you are eligible for our services. We use automated processing to understand your network relationships, and this also helps our fraud models verify your identity. ",
                               style: TextStyle(fontSize: 14),
                             ),
                           )
