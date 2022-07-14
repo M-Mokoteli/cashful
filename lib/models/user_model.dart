@@ -18,6 +18,7 @@ class User {
   late String mobileNumber;
   late String dob;
   late String fcmToken;
+  late String gender;
   late VerificationDocuments? verificationDocuments;
   late BankDetail? bankDetail;
   late MtnDetail? mtnDetail;
@@ -34,6 +35,7 @@ class User {
     required this.mobileNumber,
     required this.dob,
     required this.fcmToken,
+    required this.gender,
     this.verificationDocuments,
     this.bankDetail,
     this.mtnDetail,
@@ -52,6 +54,7 @@ class User {
       'mobileNumber': mobileNumber,
       'dob': dob,
       'fcmToken': fcmToken,
+      'gender': gender,
       'verificationDocuments': verificationDocuments?.toMap(),
       'bankDetail': bankDetail?.toMap(),
       'mtnDetail': mtnDetail?.toMap(),
@@ -70,6 +73,7 @@ class User {
       mobileNumber: map['mobileNumber'] ?? '',
       dob: map['dob'] ?? '',
       fcmToken: map['fcmToken'] ?? '',
+      gender: map['gender'] ?? '',
       verificationDocuments: map['verificationDocuments'] != null
           ? VerificationDocuments.fromMap(map['verificationDocuments'])
           : null,

@@ -56,7 +56,7 @@ class _PendingVerificationPageState extends State<PendingVerificationPage> {
                       height: 20,
                     ),
                     Text(
-                        'Your information is being verified.We\'ll notify you when verification has nbeen completed',
+                        'Your information is being verified.We\'ll notify you when verification has been completed',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.black,
