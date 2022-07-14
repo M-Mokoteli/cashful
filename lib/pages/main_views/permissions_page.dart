@@ -28,8 +28,6 @@ class _PermissionsPageState extends State<PermissionsPage>
 
   bool _locationAllowed = false;
 
-  bool _contactsAllowed = false;
-
   @override
   void initState() {
     _checkPermissions();
@@ -58,8 +56,6 @@ class _PermissionsPageState extends State<PermissionsPage>
         permissionHandler.PermissionStatus.granted;
     _locationAllowed = await permissionHandler.Permission.location.status ==
         permissionHandler.PermissionStatus.granted;
-    _contactsAllowed = await permissionHandler.Permission.contacts.status ==
-        permissionHandler.PermissionStatus.granted;
     _usageAllowed = await UsageStats.checkUsagePermission() ?? false;
     setState(() {});
   }
@@ -69,14 +65,9 @@ class _PermissionsPageState extends State<PermissionsPage>
         permissionHandler.PermissionStatus.granted;
     _locationAllowed = await permissionHandler.Permission.location.status ==
         permissionHandler.PermissionStatus.granted;
-    _contactsAllowed = await permissionHandler.Permission.contacts.status ==
-        permissionHandler.PermissionStatus.granted;
     _usageAllowed = await UsageStats.checkUsagePermission() ?? false;
 
-    return _contactsAllowed &&
-        _locationAllowed &&
-        _storageAllowed &&
-        _usageAllowed;
+    return _locationAllowed && _storageAllowed && _usageAllowed;
   }
 
   @override
@@ -195,40 +186,6 @@ class _PermissionsPageState extends State<PermissionsPage>
                         ],
                       ),
                     ),
-                    ListTile(
-                      title: TextH4(
-                        title: "Contacts List",
-                        color: Colors.black,
-                      ),
-                      trailing: _contactsAllowed
-                          ? Icon(
-                              Icons.check_circle,
-                              color: kPrimaryBlue,
-                            )
-                          : _contactsAllowed
-                              ? Icon(
-                                  Icons.check_circle,
-                                  color: kPrimaryBlue,
-                                )
-                              : InkWell(
-                                  onTap: () async {
-                                    await _grantContactsPermission();
-                                  },
-                                  child: Text("Allow")),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 18.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              "Used to support the verification of your identity by determining your approximate network relationships.",
-                              style: TextStyle(fontSize: 14),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
                     SizedBox(
                       height: 20,
                     ),
@@ -264,10 +221,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                     SizedBox(
                       height: 20,
                     ),
-                    _contactsAllowed &&
-                            _locationAllowed &&
-                            _storageAllowed &&
-                            _usageAllowed
+                    _locationAllowed && _storageAllowed && _usageAllowed
                         ? Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 20),
@@ -319,21 +273,6 @@ class _PermissionsPageState extends State<PermissionsPage>
     }
   }
 
-  _grantContactsPermission() async {
-    var _contactPermissionGranted =
-        await permissionHandler.Permission.contacts.request();
-
-    if (_contactPermissionGranted ==
-        permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _contactsAllowed = true;
-      });
-    } else if (_contactPermissionGranted ==
-        permissionHandler.PermissionStatus.permanentlyDenied) {
-      _showManualPermissionAlert();
-    }
-  }
-
   _grantUsagePermission() async {
     if (await UsageStats.checkUsagePermission() ?? false) {
       setState(() {
@@ -378,15 +317,7 @@ class _PermissionsPageState extends State<PermissionsPage>
         _locationAllowed = true;
       });
     }
-    var _contactPermissionGranted =
-        await permissionHandler.Permission.contacts.request();
 
-    if (_contactPermissionGranted ==
-        permissionHandler.PermissionStatus.granted) {
-      setState(() {
-        _contactsAllowed = true;
-      });
-    }
     var _storagePermission =
         await permissionHandler.Permission.storage.request();
     if (_storagePermission == permissionHandler.PermissionStatus.granted) {
