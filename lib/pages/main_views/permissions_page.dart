@@ -197,7 +197,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                     ),
                     ListTile(
                       title: TextH4(
-                        title: "Contacts",
+                        title: "Contacts List",
                         color: Colors.black,
                       ),
                       trailing: _contactsAllowed
@@ -222,7 +222,7 @@ class _PermissionsPageState extends State<PermissionsPage>
                         children: [
                           Expanded(
                             child: Text(
-                              "Contact lists are used to determine whether you are eligible for our services. We use automated processing to understand your network relationships, and this also helps our fraud models verify your identity. ",
+                              "Used to support the verification of your identity by determining your approximate network relationships.",
                               style: TextStyle(fontSize: 14),
                             ),
                           )

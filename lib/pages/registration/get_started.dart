@@ -25,7 +25,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
   late final TextEditingController firstName = TextEditingController();
   late final TextEditingController lastName = TextEditingController();
   late final TextEditingController dateOfBirth = TextEditingController();
-  late final TextEditingController gender = TextEditingController();
+  late final TextEditingController gender = TextEditingController(text: "Male");
   late final TextEditingController id = TextEditingController();
   late final TextEditingController address = TextEditingController();
   late final TextEditingController mobileNumber = TextEditingController();
@@ -275,6 +275,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       firstName: firstName.text,
                       lastName: lastName.text,
                       address: address.text,
+                      gender: gender.text,
                       mobileNumber: mobileNumber.text,
                       fcmToken: token ?? "",
                       dob: dateOfBirth.text);
