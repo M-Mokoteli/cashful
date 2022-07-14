@@ -277,6 +277,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                       address: address.text,
                       gender: gender.text,
                       mobileNumber: mobileNumber.text,
+                      govtID: id.text,
                       fcmToken: token ?? "",
                       dob: dateOfBirth.text);
                   bool registrationStatus = await viewModel.register(user);

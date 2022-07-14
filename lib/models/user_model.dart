@@ -19,6 +19,7 @@ class User {
   late String dob;
   late String fcmToken;
   late String gender;
+  late String govtID;
   late VerificationDocuments? verificationDocuments;
   late BankDetail? bankDetail;
   late MtnDetail? mtnDetail;
@@ -36,6 +37,7 @@ class User {
     required this.dob,
     required this.fcmToken,
     required this.gender,
+    required this.govtID,
     this.verificationDocuments,
     this.bankDetail,
     this.mtnDetail,
@@ -55,6 +57,7 @@ class User {
       'dob': dob,
       'fcmToken': fcmToken,
       'gender': gender,
+      'govtID': govtID,
       'verificationDocuments': verificationDocuments?.toMap(),
       'bankDetail': bankDetail?.toMap(),
       'mtnDetail': mtnDetail?.toMap(),
@@ -74,6 +77,7 @@ class User {
       dob: map['dob'] ?? '',
       fcmToken: map['fcmToken'] ?? '',
       gender: map['gender'] ?? '',
+      govtID: map['govtID'] ?? '',
       verificationDocuments: map['verificationDocuments'] != null
           ? VerificationDocuments.fromMap(map['verificationDocuments'])
           : null,

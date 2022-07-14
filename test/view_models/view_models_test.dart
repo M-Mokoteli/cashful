@@ -128,6 +128,8 @@ void main() {
           firstName: "firstName",
           lastName: "lastName",
           id: "123",
+          gender: "Male",
+          govtID: "000",
           address: "address",
           mobileNumber: "mobileNumber",
           dob: "dob",

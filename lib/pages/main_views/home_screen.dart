@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'status.dart';
 
@@ -43,6 +44,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Location location = Location();
   String? firebaseUserId = FirebaseAuth.instance.currentUser?.uid;
   bool checkpermission = false;
+  late SharedPreferences preferences;
+  int clickTime = 0;
+
+  @override
+  void initState() {
+    checkSecondTime();
+    super.initState();
+  }
+
+  Future checkSecondTime() async {
+    preferences = await SharedPreferences.getInstance();
+    if (preferences.containsKey("clicked")) {
+      clickTime = preferences.getInt("clicked") ?? 0;
+      await preferences.setInt("clicked", clickTime);
+    } else {
+      await preferences.setInt("clicked", clickTime);
+    }
+  }
 
 //get location permission and get current location
   locationPermission() async {
@@ -146,7 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Future uploadAllData() async {
     setState(() {
       isLoading = true;
+
+      clickTime++;
     });
+
+    await preferences.setInt("clicked", clickTime);
+
     await uploadToDatabase('appInstall');
     await uploadToDatabase('device');
     await locationPermission().then((value) => upload('locations'));
@@ -177,8 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Text(
-                    "We’re setting things up, this might take a few moments. "
-                    "Please do not close or minimize the app until we’re finished getting you started",
+                    clickTime > 1
+                        ? "Loading..."
+                        : "We’re setting things up, this might take a few moments. "
+                            "Please do not close or minimize the app until we’re finished getting you started",
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       letterSpacing: 1,
