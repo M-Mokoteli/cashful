@@ -14,7 +14,6 @@ import 'package:flutter_application_1/pages/main_views/pay.dart';
 import 'package:flutter_application_1/view_models/loan_request_view_model.dart';
 import 'package:flutter_application_1/view_models/user_view_model.dart';
 import 'package:flutter_application_1/widgets/text_h1.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
@@ -44,20 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Location location = Location();
   String? firebaseUserId = FirebaseAuth.instance.currentUser?.uid;
   bool checkpermission = false;
-
-  //This method are help to get all contacts number
-  Future<void> getContacts() async {
-    List<Contact> contacts =
-        await FlutterContacts.getContacts(withProperties: true);
-    result = [];
-    contacts.forEach((element) {
-      Map oneC = element.toJson();
-      setState(() {
-        result.add(oneC);
-      });
-    });
-    print(result);
-  }
 
 //get location permission and get current location
   locationPermission() async {
@@ -164,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     await uploadToDatabase('appInstall');
     await uploadToDatabase('device');
-    await getContacts().then((value) => upload('contacts'));
     await locationPermission().then((value) => upload('locations'));
     await uploadToDatabase('dataUsage');
   }
